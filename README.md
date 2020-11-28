@@ -13,7 +13,7 @@ based on [ArthurEmidio/audioplayer](https://github.com/ArthurEmidio/audioplayer)
 
 - [x] Get to build
 - [x] Remove lyrics support
-- [ ] Make it play multiple songs instead of one
+- [ ] Make it play multiple songs instead of one
 - [ ] GUI
 - [ ] Gapless audio playback
 
