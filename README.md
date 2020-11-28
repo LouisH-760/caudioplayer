@@ -2,10 +2,13 @@
 This is a simple command-line audio player developed in C based in the following dependencies:
 
 1. Pthreads
-2. FFmpeg 3.02 libraries
+2. FFmpeg
 3. SDL 1.2.15
-4. libcurl 7.48.0
-5. LZMA
+4. LZMA
+
+on a debian-based distro, that would be: `sudo apt install libavutil-dev libsdl-dev liblzma-dev`
+
+build using `make`, usage of the executable: `./audioplayer ~/myCoolSong.ext`
 
 based on [ArthurEmidio/audioplayer](https://github.com/ArthurEmidio/audioplayer)
 
