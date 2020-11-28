@@ -11,11 +11,11 @@ based on [ArthurEmidio/audioplayer](https://github.com/ArthurEmidio/audioplayer)
 
 ## Goals
 
-[x] Get to build
-[x] Remove lyrics support
-[ ] Make it play multiple songs instead of one
-[ ] GUI
-[ ] Gapless audio playback
+- [x] Get to build
+- [x] Remove lyrics support
+- [ ] Make it play multiple songs instead of one
+- [ ] GUI
+- [ ] Gapless audio playback
 
 ## License
 MIT License
