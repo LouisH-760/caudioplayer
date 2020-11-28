@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <sys/types.h>
 
 static void _freeAudioChunk(AudioChunk **chunk);
 

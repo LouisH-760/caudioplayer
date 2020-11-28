@@ -37,11 +37,6 @@ void stopAudioPlayer();
 void showAudioInfo();
 
 /*!
- * \brief Displays the audio lyrics, if available.
- */
-void showAudioLyrics();
-
-/*!
  * \brief Displays how many elements are stored in the audio buffer.
  * \param interval The interval on which the information should be displayed, in milliseconds.
  * \sa hideAudioBuffer()

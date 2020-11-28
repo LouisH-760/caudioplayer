@@ -1,10 +1,10 @@
 #include "audioplayer.h"
 #include "audiochunk.h"
-#include "lyricsdownloader.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <sys/types.h>
 #include <semaphore.h>
 #include <fcntl.h>
 #include <string.h>
@@ -23,7 +23,6 @@ static void* _producer(void *args);
 static void _getStreamInformation();
 static AVCodecContext* _getCodecContext(int streamIndex);
 static void _configureAudio();
-static void* _downloadLyrics(void *args);
 static void* _logAudioBuffer(void *args);
 
 int audioStreamIndex = -1;
@@ -43,8 +42,6 @@ pthread_mutex_t playbackStateMutex = PTHREAD_MUTEX_INITIALIZER;
 int displayAudioBufferInterval = 0;
 pthread_mutex_t displayAudioBufferMutex = PTHREAD_MUTEX_INITIALIZER;
 sem_t *displayAudioBufferSem;
-
-pthread_mutex_t lyricsMutex = PTHREAD_MUTEX_INITIALIZER;
 
 pthread_cond_t playerSleepCond = PTHREAD_COND_INITIALIZER;
 
@@ -72,9 +69,6 @@ void startAudioPlayer(const char *fileName, int bufferSize)
     displayAudioBufferSem = sem_open("/displayAudioBuffer", O_CREAT, 0644, 0);
     pthread_t displayAudioBufferThread;
     pthread_create(&displayAudioBufferThread, NULL, &_logAudioBuffer, NULL);
-    
-    pthread_t lyricsDownloaderThread;
-    pthread_create(&lyricsDownloaderThread, NULL, &_downloadLyrics, NULL);
     
     pthread_t producerThread;
     pthread_create(&producerThread, NULL, &_producer, NULL);
@@ -111,19 +105,6 @@ void stopAudioPlayer()
         pthread_mutex_unlock(&producerHasFinishedMutex);
     }
     pthread_mutex_unlock(&playbackStateMutex);
-}
-
-void showAudioLyrics()
-{
-    pthread_mutex_lock(&lyricsMutex);
-    AVDictionaryEntry *lyricsEntry = av_dict_get(formatCtx->metadata, "lyrics", NULL, AV_DICT_IGNORE_SUFFIX);
-    pthread_mutex_unlock(&lyricsMutex);
-    
-    if (lyricsEntry != NULL) {
-        printf("%s\n\n", lyricsEntry->value);
-    } else {
-        printf("There are no lyrics available for this song.\n");
-    }
 }
 
 void showAudioInfo()
@@ -345,24 +326,6 @@ static void _configureAudio()
         printf("Error: SDL failed to open the audio device: %s\n", SDL_GetError());
         exit(-1);
     }
-}
-
-static void* _downloadLyrics(void *args)
-{
-    AVDictionaryEntry *titleEntry = av_dict_get(formatCtx->metadata, "title", NULL, 0);
-    AVDictionaryEntry *artistEntry = av_dict_get(formatCtx->metadata, "artist", NULL, 0);
-    AVDictionaryEntry *lyricsEntry = av_dict_get(formatCtx->metadata, "lyrics", NULL, AV_DICT_IGNORE_SUFFIX);
-    
-    if ((lyricsEntry == NULL || strlen(lyricsEntry->value) == 0) && titleEntry != NULL && artistEntry != NULL) {
-        pthread_mutex_lock(&lyricsMutex);
-        char *lyrics = getLyrics(artistEntry->value, titleEntry->value);
-        if (lyrics != NULL) {
-            av_dict_set(&formatCtx->metadata, "lyrics", lyrics, AV_DICT_DONT_STRDUP_VAL);
-        }
-        pthread_mutex_unlock(&lyricsMutex);
-    }
-    
-    return NULL;
 }
 
 static void* _logAudioBuffer(void *args)

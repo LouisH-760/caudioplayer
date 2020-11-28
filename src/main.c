@@ -34,8 +34,6 @@ int main(int argc, char *argv[])
             stopAudioPlayer();
         } else if (strcmp(opt, "info") == 0) {
             showAudioInfo();
-        } else if (strcmp(opt, "lyrics") == 0) {
-            showAudioLyrics();
         } else if (strncmp(opt, "show_buffer", strlen("show_buffer")) == 0) {
             char *rem = opt + strlen("show_buffer") + 1;
             while (*rem && !isdigit(*rem)) rem++;
@@ -49,7 +47,6 @@ int main(int argc, char *argv[])
             printf("\tpause: pauses the song.\n");
             printf("\tstop: stops the song.\n");
             printf("\tinfo: displays information about the file.\n");
-            printf("\tlyrics: displays the song's lyrics (if available on file or at azlyrics.com).\n");
             printf("\tshow_buffer N: displays the buffer occupation every N milliseconds. N is 200, by default.\n");
             printf("\thide_buffer: disables the command given by the command \"show_buffer\".\n");
             printf("\texit: exits the player.\n");
