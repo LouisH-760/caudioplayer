@@ -1,46 +1,21 @@
-# Minimalist Audio Player
+# C Audio Player
 This is a simple command-line audio player developed in C based in the following dependencies:
 
 1. Pthreads
 2. FFmpeg 3.02 libraries
 3. SDL 1.2.15
 4. libcurl 7.48.0
+5. LZMA
 
-This is a personal project used as a way to learn more about audio decoding and libcurl.
+based on [ArthurEmidio/audioplayer](https://github.com/ArthurEmidio/audioplayer)
 
-## Features
-The player has the following menu options:
+## Goals
 
-1. **play**: plays the song.
-2. **pause**: pauses the song.
-3. **stop**: stops the song.
-4. **info**: displays information about the file.
-5. **lyrics**: displays the song's lyrics.
-6. **show_buffer N**: displays the buffer occupation every N milliseconds. N is 200, by default.
-7. **hide_buffer**: disables the command given by the command "show_buffer".
-8. **exit**: exits the player.
-
-### Lyrics Support
-The player displays the lyrics present in the audio file's metadata, if existing. Otherwise, it attempts
-to download the lyrics available at [azlyrics.com](http://azlyrics.com). The audio player
-makes sure to let the user know when lyrics have been obtained from the web.
-
-## Compiling
-On OS X, the program can be compiled using the Xcode project.
-
-It can also be compiled via gcc by running:
-
-*gcc -std=c99 main.c audiochunk.c audioplayer.c lyricsdownloader.c 
--lavformat -lavcodec -lavutil -lswscale -lswresample -lpthread 
--lz -lm -lva -llzma -lcurl `sdl-config --cflags --libs`
--Wno-deprecated-declarations -o audioplayer`*
-
-## Running
-*./audioplayer filename.ext*
-
-## Screenshots
-<img src="screenshots/info.png" title="Audio Information" width="434px" height="287px" />
-<img src="screenshots/lyrics.png" title="Lyrics" width="434px" height="287px" />
+[x] Get to build
+[x] Remove lyrics support
+[ ] Make it play multiple songs instead of one
+[ ] GUI
+[ ] Gapless audio playback
 
 ## License
 MIT License
